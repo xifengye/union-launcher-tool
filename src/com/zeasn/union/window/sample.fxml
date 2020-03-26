@@ -3,24 +3,33 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zeasn.union.window.Controller">
-   <columnConstraints>
-      <ColumnConstraints />
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
-   <children>
-      <Button fx:id="mButton" mnemonicParsing="false" onAction="#onSelectTemplateProjectDirClicked" prefHeight="60.0" prefWidth="150.0" text="选择工程模板" />
-      <Label prefHeight="60.0" prefWidth="300" text="Label" GridPane.columnIndex="1" />
-      <Label text="项目名称：" GridPane.rowIndex="2" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Button mnemonicParsing="false" onAction="#onSelectProjectSaveDirClicked" prefHeight="60.0" prefWidth="150.0" text="选择工程存放路径" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-      <Button mnemonicParsing="false" onAction="#onCreateProjectClicked"  prefHeight="60.0" prefWidth="150.0" text="创建工程" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-   </children>
+<GridPane alignment="center" hgap="10" prefHeight="400.0" prefWidth="600.0" vgap="10"
+          xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.zeasn.union.window.Controller">
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+    <children>
+        <Button fx:id="mButton" mnemonicParsing="false" onAction="#onSelectTemplateProjectDirClicked" prefHeight="60.0"
+                prefWidth="150.0" text="选择工程模板"/>
+        <Label fx:id="mTemplateProjectDirLabel" prefHeight="60.0" prefWidth="400"
+               GridPane.columnIndex="1"/>
+        <Label text="项目名称：" GridPane.rowIndex="2" prefHeight="60.0" prefWidth="150.0"/>
+        <TextField fx:id="mProjectNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="60.0"
+                   prefWidth="400.0"/>
+        <Button mnemonicParsing="false" onAction="#onSelectProjectSaveDirClicked" prefHeight="60.0" prefWidth="150.0"
+                text="选择工程存放路径" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <Label fx:id="mProjectSaveDirLabel" prefHeight="60.0" prefWidth="400.0" GridPane.columnIndex="1"
+               GridPane.rowIndex="3"/>
+        <Button mnemonicParsing="false" onAction="#onCreateProjectClicked" prefHeight="60.0" prefWidth="150.0"
+                text="创建工程" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    </children>
 </GridPane>
