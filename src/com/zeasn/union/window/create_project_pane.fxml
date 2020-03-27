@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.zeasn.union.window.CreateProjectPane"
+            prefHeight="400.0" prefWidth="600.0">
+    <GridPane prefHeight="400.0" prefWidth="600.0">
+        <Button fx:id="mButton" mnemonicParsing="false" onAction="#onSelectTemplateProjectDirClicked" prefHeight="60.0" prefWidth="150.0" text="选择工程模板" GridPane.rowIndex="1" />
+        <Label fx:id="mTemplateProjectDirLabel" prefHeight="60.0" prefWidth="400" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label prefHeight="60.0" prefWidth="150.0" text="项目名称：" GridPane.rowIndex="3" />
+        <TextField fx:id="mProjectNameTextField" prefHeight="60.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <Button mnemonicParsing="false" onAction="#onSelectProjectSaveDirClicked" prefHeight="60.0" prefWidth="150.0" text="选择工程存放路径" GridPane.rowIndex="4" />
+        <Label fx:id="mProjectSaveDirLabel" prefHeight="60.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        <Button mnemonicParsing="false" onAction="#onCreateProjectClicked" prefHeight="60.0" prefWidth="150.0" text="创建工程" GridPane.rowIndex="5" />
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+    </GridPane>
+</AnchorPane>
