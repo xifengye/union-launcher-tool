@@ -3,25 +3,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox prefWidth="1280" prefHeight="720" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zeasn.union.window.Controller">
-   <MenuBar>
-     <menus>
-       <Menu mnemonicParsing="false" text="File">
-         <items>
-           <MenuItem mnemonicParsing="false" onAction="#onCreateProjectMenuItemClicked" text="创建工程" />
-         </items>
-       </Menu>
-       <Menu mnemonicParsing="false" text="Edit">
-         <items>
-           <MenuItem mnemonicParsing="false" text="Delete" />
-         </items>
-       </Menu>
-       <Menu mnemonicParsing="false" text="Help">
-         <items>
-           <MenuItem mnemonicParsing="false" text="About" />
-         </items>
-       </Menu>
-     </menus>
-   </MenuBar>
-
-</VBox>
+<BorderPane prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zeasn.union.window.Controller">
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onCreateProjectMenuItemClicked" text="创建工程" />
+                        <MenuItem mnemonicParsing="false" onAction="#onOpenProjectMenuItemClicked" text="打开工程" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+</BorderPane>
