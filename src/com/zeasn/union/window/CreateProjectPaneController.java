@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputMethodEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -13,7 +14,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
-public class CreateProjectPane {
+public class CreateProjectPaneController {
+    private Alert alert;
     @FXML
     Label mProjectSaveDirLabel;
     @FXML
@@ -65,6 +67,7 @@ public class CreateProjectPane {
                 File descFile = new File(DataMgr.getInstance().getProjectDir() + File.separator + "temp");
                 FileUtils.copyDirectory(new File(DataMgr.getInstance().getmTemplateProjectFilePath()), descFile);
                 descFile.renameTo(new File(DataMgr.getInstance().getProjectFilePath()));
+                alert.close();
                 alert(Alert.AlertType.INFORMATION,"恭喜","项目创建成功！");
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -96,6 +99,7 @@ public class CreateProjectPane {
     }
 
 
+
     private void alert(Alert.AlertType type, String title, String content){
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -104,4 +108,8 @@ public class CreateProjectPane {
         alert.showAndWait();
     }
 
+
+    public void bindDialog(Alert alert){
+        this.alert = alert;
+    }
 }

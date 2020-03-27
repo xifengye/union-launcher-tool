@@ -16,32 +16,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        URL location = getClass().getResource("sample.fxml");
+        URL location = getClass().getResource("main.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location);
         fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
         Parent root = fxmlLoader.load();
         Controller controller = fxmlLoader.getController();
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("大公版配置工具");
         Scene scene = new Scene(root, 600, 400);
-        createMenu(root);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private void createMenu(Parent root){
-        MenuBar menuBar = new MenuBar();
-
-        Menu baseMenu = new Menu("Base");
-
-        Menu homeActivityMenu = new Menu("HomeActivity");
-
-        Menu detailActivityMenu = new Menu("DetailActivity");
-
-        Menu searchActivityMenu = new Menu("SearchActivity");
-
-        menuBar.getMenus().addAll(baseMenu, homeActivityMenu, detailActivityMenu);
-//        root.getChildren().addAll(menuBar);
-    }
 
 
     public static void main(String[] args) {
