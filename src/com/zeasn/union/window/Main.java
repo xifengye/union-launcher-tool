@@ -1,5 +1,6 @@
 package com.zeasn.union.window;
 
+import com.zeasn.union.db.DatabaseConnection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -23,6 +24,9 @@ public class Main extends Application {
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        databaseConnection.test();
     }
 
 

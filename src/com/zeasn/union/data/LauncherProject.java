@@ -4,20 +4,25 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LauncherProject {
+public class LauncherProject extends ConfigNode{
     private String mRootDir;
-    private String mName;
     private String mTemplateDir;
     private List<ConfigNode> children;
+
+    public LauncherProject(String name) {
+        super(name);
+    }
+
+    public LauncherProject() {
+        super("");
+    }
 
     public String getProjectDir() {
         return mRootDir;
     }
 
 
-    public String getName() {
-        return mName;
-    }
+
 
 
 
@@ -26,9 +31,6 @@ public class LauncherProject {
     }
 
 
-    public void setName(String projectName) {
-        this.mName = projectName;
-    }
 
     public String getTemplateDir() {
         return mTemplateDir;
@@ -39,7 +41,7 @@ public class LauncherProject {
     }
 
     public String getProjectFilePath() {
-        return mRootDir + File.separator+ mName;
+        return mRootDir + File.separator+ getName();
     }
 
     public void initTreeNodes(){
