@@ -18,6 +18,11 @@
                         <MenuItem mnemonicParsing="false" text="Delete" />
                     </items>
                 </Menu>
+                <Menu mnemonicParsing="false" text="Tool">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onSelectTranslationMenuItemClicked" text="翻译挑选" />
+                    </items>
+                </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About" />

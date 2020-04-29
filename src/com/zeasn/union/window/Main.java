@@ -25,8 +25,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        DatabaseConnection databaseConnection = new DatabaseConnection();
-        databaseConnection.test();
+
     }
 
 

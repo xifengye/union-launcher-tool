@@ -3,7 +3,8 @@ package com.zeasn.union.window;
 import com.zeasn.union.data.ConfigNode;
 import com.zeasn.union.data.DataMgr;
 import com.zeasn.union.data.LauncherProject;
-import com.zeasn.union.data.WindowUtils;
+import com.zeasn.union.utils.WindowUtils;
+import com.zeasn.union.db.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -41,14 +42,24 @@ public class Controller {
     };
 
     private void onConfigNodeClicked(ConfigNode configNode){
-        System.out.println("configNode="+configNode);
-        Label centerLabel = new Label(configNode.getName());
-        centerLabel.setWrapText(true);
-        Pane pane = new Pane();
-        pane.setBackground(new Background(new BackgroundFill(Color.color(Math.random(),Math.random(),Math.random()),null,null)));
-        pane.setPrefSize(500,500);
-        pane.getChildren().add(centerLabel);
-        mBorderPane.setCenter(pane);
+        Pane pane = null;
+        if(configNode.getName().equals("主题")){
+            try {
+                pane = WindowUtils.create(getClass(),"text_style_pane.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            pane = new Pane();
+            Label centerLabel = new Label(configNode.getName());
+            centerLabel.setWrapText(true);
+            pane.setBackground(new Background(new BackgroundFill(Color.color(Math.random(), Math.random(), Math.random()), null, null)));
+            pane.setPrefSize(500, 500);
+            pane.getChildren().add(centerLabel);
+        }
+        if(pane!=null) {
+            mBorderPane.setCenter(pane);
+        }
     }
 
 
@@ -93,6 +104,26 @@ public class Controller {
         }
     }
 
+    /**
+     * 创建工程菜单键
+     * @param actionEvent
+     */
+    public void onSelectTranslationMenuItemClicked(ActionEvent actionEvent) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("挑选翻译");
+        alert.setHeaderText("");
+        FXMLLoader fxmlLoader = WindowUtils.createLoader(getClass(),"select_translation_pane.fxml");
+        Parent root = fxmlLoader.load();
+        SelectTranslationPaneController controller = fxmlLoader.getController();
+        controller.bindDialog(alert);
+        alert.getDialogPane().getButtonTypes().addAll(new ButtonType("取消",ButtonBar.ButtonData.CANCEL_CLOSE));
+        alert.getDialogPane().setContent(root);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
+            onReadyProject();
+        }
+    }
+
     public void bindRootView(BorderPane borderPane){
         this.mBorderPane = borderPane;
     }
@@ -125,6 +156,7 @@ public class Controller {
     private void onReadyProject(){
         LauncherProject launcherProject = DataMgr.getInstance().getProject();
         if(launcherProject !=null){
+            DatabaseConnection.getInstance().insertLauncherProject(launcherProject);
             createTreeView(launcherProject);
         }
     }
