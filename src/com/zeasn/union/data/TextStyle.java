@@ -15,9 +15,29 @@ public class TextStyle {
         this.name = name;
         this.typeFace = typeFace;
         this.textSize = textSize;
-        this.textColor = textColor;
+        this.textColor = parseColor(textColor);
         this.letterSpacing = letterSpacing;
         this.lineSpacing = lineSpacing;
+    }
+
+    private String parseColor(String textColor) {
+        if(textColor!=null){
+            if(!textColor.startsWith("#")) {
+                if (textColor.length() == 1) {
+                    return "#"+textColor + textColor + textColor+textColor + textColor + textColor;
+                }
+                if (textColor.length() == 2) {
+                    return "#"+textColor + textColor + textColor;
+                }
+                if (textColor.length() == 3) {
+                    return "#"+textColor + textColor;
+                }
+                if (textColor.length() == 6) {
+                    return "#"+textColor;
+                }
+            }
+        }
+        return textColor;
     }
 
     public String getName() {
@@ -70,13 +90,7 @@ public class TextStyle {
 
     @Override
     public String toString() {
-        return "TextStyle{" +
-                "name='" + name + '\'' +
-                ", typeFace=" + typeFace +
-                ", textSize=" + textSize +
-                ", textColor='" + textColor + '\'' +
-                ", letterSpacing=" + letterSpacing +
-                ", lineSpacing=" + lineSpacing +
-                '}';
+        return String.format("%s [%d,%s,%s]",name,textSize,textColor,typeFace.name());
+//        return String.format("%s 字号：%d\t 颜色：%s\t %s",name,textSize,textColor,typeFace.name());
     }
 }

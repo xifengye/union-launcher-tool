@@ -7,6 +7,7 @@ import java.util.List;
 public class LauncherProject extends ConfigNode{
     private String mRootDir;
     private String mTemplateDir;
+    private long mLastEditTime;
     private List<ConfigNode> children;
 
     public LauncherProject(String name) {
@@ -60,6 +61,15 @@ public class LauncherProject extends ConfigNode{
         children.add(detailConfig);
         children.add(searchConfig);
         children.add(sortingPlayListConfig);
+    }
+
+
+    public long getLastEditTime() {
+        return mLastEditTime;
+    }
+
+    public void setLastEditTime(long mLastEditTime) {
+        this.mLastEditTime = mLastEditTime;
     }
 
     public List<ConfigNode> getChildrenConfigNode() {

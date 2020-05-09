@@ -1,8 +1,8 @@
 package com.zeasn.union.utils;
 
+import com.zeasn.union.window.IController;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,7 +11,10 @@ public class WindowUtils {
 
     public static <T> T create(Class c, String fxmlFileName) throws IOException {
         FXMLLoader loader = createLoader(c,fxmlFileName);
-        return loader.load();
+        T result = loader.load();
+        IController controller = loader.getController();
+        controller.init();
+        return result;
     }
 
     public static FXMLLoader createLoader(Class c, String fxmlFileName){

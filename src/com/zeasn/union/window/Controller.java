@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class Controller {
+public class Controller implements IController {
 
     private BorderPane mBorderPane;
     private TreeView<ConfigNode> treeView;
@@ -81,6 +81,7 @@ public class Controller {
             project.setRootDir(rootDir);
             DataMgr.getInstance().setLauncherProject(project);
             onReadyProject();
+            DatabaseConnection.getInstance().updateLauncherProject(project);
         }
     }
 
@@ -105,6 +106,24 @@ public class Controller {
     }
 
     /**
+     * 蓝湖图片重命名
+     * @param actionEvent
+     */
+    public void onRenameImgMenuItemClicked(ActionEvent actionEvent) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("打开目录");
+        alert.setHeaderText("");
+        FXMLLoader fxmlLoader = WindowUtils.createLoader(getClass(),"rename_img_pane.fxml");
+        Parent root = fxmlLoader.load();
+        RenameImgPaneController controller = fxmlLoader.getController();
+        controller.bindDialog(alert);
+        alert.getDialogPane().getButtonTypes().addAll(new ButtonType("取消",ButtonBar.ButtonData.CANCEL_CLOSE));
+        alert.getDialogPane().setContent(root);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
+        }
+    }
+    /**
      * 创建工程菜单键
      * @param actionEvent
      */
@@ -120,7 +139,6 @@ public class Controller {
         alert.getDialogPane().setContent(root);
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
-            onReadyProject();
         }
     }
 
@@ -161,4 +179,26 @@ public class Controller {
         }
     }
 
+    @Override
+    public void init() {
+        List<LauncherProject> projects = DatabaseConnection.getInstance().getLauncherProjects();
+        LauncherProject lastEditProject = null;
+        if(projects!=null && projects.size()>0){
+            for(LauncherProject l : projects){
+                if(lastEditProject==null){
+                    lastEditProject =l;
+                }else{
+                    if(lastEditProject.getLastEditTime()<l.getLastEditTime()){
+                        lastEditProject = l;
+                    }
+                }
+
+            }
+        }
+        if(lastEditProject!=null){
+            DataMgr.getInstance().setLauncherProject(lastEditProject);
+            DatabaseConnection.getInstance().updateLauncherProject(lastEditProject);
+            createTreeView(lastEditProject);
+        }
+    }
 }

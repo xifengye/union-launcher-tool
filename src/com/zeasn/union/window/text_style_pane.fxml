@@ -6,6 +6,6 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zeasn.union.window.TextStylePane">
    <children>
       <Button fx:id="addBtn" layoutX="271.0" layoutY="359.0" mnemonicParsing="false" onAction="#onAddClicked" text="添加" />
-      <ListView fx:id="listview" layoutY="-1.0" prefHeight="356.0" prefWidth="601.0" />
+      <ListView fx:id="listView" layoutY="-1.0" prefHeight="356.0" prefWidth="601.0" />
    </children>
 </AnchorPane>

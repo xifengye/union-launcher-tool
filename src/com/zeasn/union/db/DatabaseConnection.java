@@ -1,6 +1,7 @@
 package com.zeasn.union.db;
 
 
+import com.zeasn.union.data.DataMgr;
 import com.zeasn.union.data.LauncherProject;
 import com.zeasn.union.data.TextStyle;
 
@@ -155,7 +156,11 @@ public class DatabaseConnection {
 
     private void createLauncherProjectTable() {
         if (!tableExist(PROJECT_TABLE)) {
-            createTable(PROJECT_TABLE, new StringType("PROJECT_NAME", false, false), new StringType("PROJECT_DIR", false, false), new StringType("TEMPLATE_DIR", true, false));
+            createTable(PROJECT_TABLE,
+                    new StringType("PROJECT_NAME", false, false),
+                    new StringType("PROJECT_DIR", false, false),
+                    new StringType("TEMPLATE_DIR", true, false),
+                    new IntType("LAST_EDIT_TIME", true, false));
         }
     }
 
@@ -168,7 +173,9 @@ public class DatabaseConnection {
      */
     private void createTextStyleTable() {
         if (!tableExist(TEXT_STYLE_TABLE)) {
-            createTable(TEXT_STYLE_TABLE, new StringType("NAME", false, true),
+            createTable(TEXT_STYLE_TABLE,
+                    new StringType("PROJECT_NAME", false, false),
+                    new StringType("NAME", false, true),
                     new StringType("TYPE_FACE", true, false),
                     new IntType("TEXT_SIZE", true, false),
                     new IntType("LETTER_SPACING", true, false),
@@ -187,13 +194,14 @@ public class DatabaseConnection {
     public void insertLauncherProject(LauncherProject project) {
         createLauncherProjectTable();
         if (!launcherProjectExist(project)) {
-            String sql = "insert into " + PROJECT_TABLE + " values(?,?,?)";
+            String sql = "insert into " + PROJECT_TABLE + " values(?,?,?,?)";
             PreparedStatement statement = null;
             try {
                 statement = connection.prepareStatement(sql);
                 statement.setString(1, project.getName());
                 statement.setString(2, project.getProjectDir());
                 statement.setString(3, project.getTemplateDir());
+                statement.setLong(4, System.currentTimeMillis());
                 statement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -210,19 +218,45 @@ public class DatabaseConnection {
 
     }
 
-    public void insertTextStyle(TextStyle textStyle) {
+    public void updateLauncherProject(LauncherProject project){
+        if(project!=null){
+            String sql = "update " + PROJECT_TABLE + " set LAST_EDIT_TIME=? where PROJECT_NAME=? and  PROJECT_DIR=?";
+            PreparedStatement statement = null;
+            try {
+                statement = connection.prepareStatement(sql);
+                statement.setLong(1, System.currentTimeMillis());
+                statement.setString(2, project.getName());
+                statement.setString(3, project.getProjectDir());
+                statement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                if(statement!=null){
+                    try {
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean insertTextStyle(TextStyle textStyle) {
         createTextStyleTable();
-        String sql = "insert into " + TEXT_STYLE_TABLE + " value(?,?,?,?,?,?)";
+        String sql = "insert into " + TEXT_STYLE_TABLE + " values (?,?,?,?,?,?,?)";
         PreparedStatement statement = null;
         try {
             statement = connection.prepareStatement(sql);
-            statement.setString(1, textStyle.getName());
-            statement.setString(2, textStyle.getTypeFace() == null ? "" : textStyle.getTypeFace().name());
-            statement.setInt(3, textStyle.getTextSize());
-            statement.setInt(4, textStyle.getLetterSpacing());
-            statement.setInt(5, textStyle.getLineSpacing());
-            statement.setString(6, (textStyle.getTextColor()!=null&&textStyle.getTextColor().length()>0)?textStyle.getTextColor():"");
+            statement.setString(1, DataMgr.getInstance().getProject().getProjectFilePath());
+            statement.setString(2, textStyle.getName());
+            statement.setString(3, textStyle.getTypeFace() == null ? "" : textStyle.getTypeFace().name());
+            statement.setInt(4, textStyle.getTextSize());
+            statement.setInt(5, textStyle.getLetterSpacing());
+            statement.setInt(6, textStyle.getLineSpacing());
+            statement.setString(7, (textStyle.getTextColor()!=null&&textStyle.getTextColor().length()>0)?textStyle.getTextColor():"");
             statement.execute();
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
@@ -234,6 +268,7 @@ public class DatabaseConnection {
                 }
             }
         }
+        return false;
     }
 
     private boolean launcherProjectExist(LauncherProject project) {
@@ -267,7 +302,7 @@ public class DatabaseConnection {
      *
      * @return
      */
-    private List<LauncherProject> getLauncherProjects() {
+    public List<LauncherProject> getLauncherProjects() {
         String sql = "select * from " + PROJECT_TABLE;
         List<LauncherProject> launcherProjects = new ArrayList<>();
         try {
@@ -277,10 +312,12 @@ public class DatabaseConnection {
                 String projectDir = resultSet.getString("PROJECT_DIR");
                 String projectName = resultSet.getString("PROJECT_NAME");
                 String templateDir = resultSet.getString("TEMPLATE_DIR");
-                LauncherProject launcherProject = new LauncherProject(projectDir);
-                launcherProject.setName(projectName);
+                long lastEditTime = resultSet.getLong("LAST_EDIT_TIME");
+                LauncherProject launcherProject = new LauncherProject(projectName);
+                launcherProject.setRootDir(projectDir);
                 launcherProject.setTemplateDir(templateDir);
                 launcherProjects.add(launcherProject);
+                launcherProject.setLastEditTime(lastEditTime);
             }
             resultSet.close();
             statement.close();
@@ -300,11 +337,12 @@ public class DatabaseConnection {
      *                     new StringType("TEXT_COLOR", true, false));
      * @return
      */
-    private List<TextStyle> getTextStyles() {
-        String sql = "select * from " + TEXT_STYLE_TABLE;
+    public List<TextStyle> getTextStyles() {
+        String sql = "select * from " + TEXT_STYLE_TABLE +" where PROJECT_NAME=?";
         List<TextStyle> textStyles = new ArrayList<>();
         try {
-            PreparedStatement statement = query(sql);
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, DataMgr.getInstance().getProject().getProjectFilePath());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String name = resultSet.getString("NAME");
