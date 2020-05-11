@@ -123,6 +123,26 @@ public class Controller implements IController {
         if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
         }
     }
+
+    /**
+     * 创建图片Selector
+     * @param actionEvent
+     */
+    public void onCreateSelectorMenuItemClicked(ActionEvent actionEvent) throws IOException{
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("打开目录");
+        alert.setHeaderText("");
+        FXMLLoader fxmlLoader = WindowUtils.createLoader(getClass(),"create_img_selector_pane.fxml");
+        Parent root = fxmlLoader.load();
+        CreateImgSelectorPane controller = fxmlLoader.getController();
+        controller.init();
+        alert.getDialogPane().getButtonTypes().addAll(new ButtonType("取消",ButtonBar.ButtonData.CANCEL_CLOSE));
+        alert.getDialogPane().setContent(root);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
+        }
+    }
+
     /**
      * 创建工程菜单键
      * @param actionEvent
@@ -201,4 +221,6 @@ public class Controller implements IController {
             createTreeView(lastEditProject);
         }
     }
+
+
 }

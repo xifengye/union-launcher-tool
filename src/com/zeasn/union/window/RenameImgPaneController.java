@@ -77,10 +77,13 @@ public class RenameImgPaneController implements IController{
                     newFielName+=editingFileExtends;
                 }
                 for(File file:mipmapFiles){
-                    for(File f:file.listFiles()){
-                        if(f.getName().equals(editingFileName)){
-                            String fn = f.getAbsolutePath().replace(editingFileName,newFielName);
-                            f.renameTo(new File(fn));
+                    if(file!=null && file.getName().endsWith("dpi")) {
+                        System.out.println("file="+file);
+                        for (File f : file.listFiles()) {
+                            if (f!=null && editingFileName.equals(f.getName())) {
+                                String fn = f.getAbsolutePath().replace(editingFileName, newFielName);
+                                f.renameTo(new File(fn));
+                            }
                         }
                     }
                 }

@@ -24,7 +24,11 @@ public class Main extends Application {
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
-        controller.init();
+        try {
+            controller.init();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
 
     }
