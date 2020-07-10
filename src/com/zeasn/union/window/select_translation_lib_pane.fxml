@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.zeasn.union.window.SelectTranslationLibPaneController">
+   <HBox prefHeight="100.0" prefWidth="1000.0">
+      <children>
+         <Button mnemonicParsing="false" text="选择库" onAction="#onSelectTranslationLibFileClicked"/>
+         <Label fx:id="mTranslationLibLabel"/>
+      </children>
+   </HBox>
+    <HBox prefHeight="100.0" prefWidth="1000.0">
+        <children>
+            <Button mnemonicParsing="false" text="选择导出目录" onAction="#onSelectTranslationOutFileClicked"/>
+            <Label fx:id="mTranslationOutLabel"/>
+        </children>
+    </HBox>
+    <ScrollPane prefHeight="1000.0" prefWidth="1000.0">
+      <content>
+         <TableView prefHeight="1000.0" prefWidth="1000.0" fx:id="mTableView">
+         </TableView>
+      </content></ScrollPane>
+</VBox>

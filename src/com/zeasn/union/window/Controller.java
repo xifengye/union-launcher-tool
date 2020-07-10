@@ -3,6 +3,8 @@ package com.zeasn.union.window;
 import com.zeasn.union.data.ConfigNode;
 import com.zeasn.union.data.DataMgr;
 import com.zeasn.union.data.LauncherProject;
+import com.zeasn.union.translater.model.TranslateItem;
+import com.zeasn.union.translater.parser.ExcelReader;
 import com.zeasn.union.utils.WindowUtils;
 import com.zeasn.union.db.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -223,4 +225,29 @@ public class Controller implements IController {
     }
 
 
+    public void onSelectTranslationLibMenuItemClicked(ActionEvent actionEvent) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("翻译库");
+        alert.setHeaderText("");
+        FXMLLoader fxmlLoader = WindowUtils.createLoader(getClass(),"select_translation_lib_pane.fxml");
+        Parent root = fxmlLoader.load();
+        SelectTranslationLibPaneController controller = fxmlLoader.getController();
+        controller.bindDialog(alert);
+        alert.getDialogPane().getButtonTypes().addAll(new ButtonType("取消",ButtonBar.ButtonData.CANCEL_CLOSE));
+        alert.getDialogPane().setContent(root);
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
+        }
+
+    }
 }
+
+
+
+
+
+
+
+
+
+

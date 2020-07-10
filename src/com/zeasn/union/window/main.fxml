@@ -20,6 +20,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Tool">
                     <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onSelectTranslationLibMenuItemClicked" text="翻译库" />
                         <MenuItem mnemonicParsing="false" onAction="#onSelectTranslationMenuItemClicked" text="翻译挑选" />
                         <MenuItem mnemonicParsing="false" onAction="#onRenameImgMenuItemClicked" text="蓝湖重命名" />
                         <MenuItem mnemonicParsing="false" onAction="#onCreateSelectorMenuItemClicked" text="创建Selector" />

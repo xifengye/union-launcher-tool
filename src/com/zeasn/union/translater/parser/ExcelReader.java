@@ -1,0 +1,61 @@
+package com.zeasn.union.translater.parser;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.zeasn.union.translater.model.Lan;
+import com.zeasn.union.translater.model.TranslateItem;
+import com.zeasn.union.translater.model.Translater;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+public class ExcelReader {
+	public static final int START_COLUMN = 2;
+	public Translater read(String fileName) throws EncryptedDocumentException, IOException {
+		if (fileName == null) return null;
+		
+		File xlsFile = new File(fileName);
+		if (!xlsFile.exists()) return null;
+		
+		// 工作表
+		Workbook workbook = WorkbookFactory.create(xlsFile);
+		// 表个数
+		int numberOfSheets = workbook.getNumberOfSheets();
+//		System.out.println(numberOfSheets);
+		if (numberOfSheets <= 0) return null;
+		
+		List<TranslateItem> list = new ArrayList<>();
+		//我们的需求只需要处理一个表，因此不需要遍历
+		Sheet sheet = workbook.getSheetAt(0);
+		// 行数
+		int rowNumbers = sheet.getLastRowNum() + 1;
+//		System.out.println(rowNumbers);
+		TranslateItem translateItem;
+		// 读数据，第二行开始读取
+		Map<Integer, Lan> lanMap = parseLanguage(sheet.getRow(0));
+		for (int row = 1; row < rowNumbers; row++) {
+			Row r = sheet.getRow(row);
+			translateItem = new TranslateItem(r,lanMap);
+			if(translateItem.getKey()!=null && !translateItem.getKey().isEmpty()) {
+				list.add(translateItem);
+			}
+		}
+		return new Translater(lanMap.values(),list);
+	}
+
+	private Map<Integer, Lan> parseLanguage(Row row){
+		Map<Integer, Lan> map = new HashMap<>();
+		int lastCellNum = row.getLastCellNum();
+		for(int column=START_COLUMN+1;column<lastCellNum;column++){
+			map.put(column,Lan.get(row.getCell(column).getStringCellValue()));
+		}
+		return map;
+	}
+}

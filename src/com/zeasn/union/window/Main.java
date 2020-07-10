@@ -1,6 +1,8 @@
 package com.zeasn.union.window;
 
 import com.zeasn.union.db.DatabaseConnection;
+import com.zeasn.union.translater.model.TranslateItem;
+import com.zeasn.union.translater.parser.ExcelReader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
@@ -9,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -29,7 +32,6 @@ public class Main extends Application {
         }catch (Exception e){
             e.printStackTrace();
         }
-
 
     }
 
