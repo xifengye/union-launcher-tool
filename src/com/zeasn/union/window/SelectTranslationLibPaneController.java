@@ -56,18 +56,38 @@ public class SelectTranslationLibPaneController {
 
     private void genAndroidTranslate(Collection<Lan> lans, List<TranslateItem> translateItemList) throws IOException {
         for (Lan lan : lans) {
-            StringBuilder translatedResult = new StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<resources>\n");
+            StringBuilder translatedResult = new StringBuilder();
             for (TranslateItem translateItem : translateItemList) {
                 if (translateItem.getKey() != null && !translateItem.getKey().isEmpty()) {
-                    translatedResult.append(String.format("\t<string name=\"%s\">%s</string>", translateItem.getKey(), translateItem.getTranslateByLan(lan.name()))).append("\n");
+                    String trans = translateItem.getTranslateByLan(lan.name());
+                    if(trans!=null && trans.length()>0) {
+                        translatedResult.append(String.format("\t<string name=\"%s\">%s</string>", translateItem.getKey(), trans)).append("\n");
+                    }
                 }
             }
-            translatedResult.append("</resources>");
-            String saveFileName = String.format("%s/strings_%s.xml", mTranslationOutLabel.getText(), lan.name());
-            FileUtils.write(new File(saveFileName), translatedResult.toString());
+            if(translatedResult.length()==0){
+                continue;
+            }
+            String header = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + "<resources>\n";
+            String tailer = "</resources>";
+            StringBuilder result = new StringBuilder(header).append(translatedResult).append(tailer);
+            saveValues(mTranslationOutLabel.getText(),lan,result.toString());
         }
         alert(Alert.AlertType.INFORMATION, "恭喜", "翻译完成");
 
+    }
+
+    private void saveValues(String rootDir,Lan lan,String result) throws IOException {
+        if(lan==Lan.en){
+            saveValues(rootDir,null,result);
+        }
+        String valuesDir = String.format("%s/values%s/", rootDir,lan==null?"":"-"+lan.name().replace("_","-"));
+        File valueDirFile = new File(valuesDir);
+        if(!valueDirFile.exists()){
+            valueDirFile.mkdir();
+        }
+        String saveFileName = String.format("%s/strings.xml", valuesDir);
+        FileUtils.write(new File(saveFileName), result);
     }
 
 
@@ -96,10 +116,12 @@ public class SelectTranslationLibPaneController {
         try {
 //            path = getClass().getResource("/resources/translate.xlsx").toString().replace("file:", "");
             Translater translater = new ExcelReader().read(path);
+            mTranslationOutLabel.setText(translater.getTranslateItemList().size()+"行");
             fillDataToTableView(translater);
 
         } catch (Exception e) {
             e.printStackTrace();
+            mTranslationLibLabel.setText(e.getMessage());
         }
     }
 

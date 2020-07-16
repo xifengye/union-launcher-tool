@@ -54,7 +54,21 @@ public class ExcelReader {
 		Map<Integer, Lan> map = new HashMap<>();
 		int lastCellNum = row.getLastCellNum();
 		for(int column=START_COLUMN+1;column<lastCellNum;column++){
-			map.put(column,Lan.get(row.getCell(column).getStringCellValue()));
+			String header = row.getCell(column).getStringCellValue();
+			int leftIndex = header.indexOf("（");
+			String replaceHeader = header;
+			if(leftIndex==-1){
+				leftIndex = header.indexOf("(");
+			}
+			if(leftIndex>=0) {
+				replaceHeader = header.substring(0, leftIndex).replace(" ", "").replace("-","_");
+			}
+			Lan lan = Lan.get(replaceHeader);
+			if(lan!=null) {
+				map.put(column, lan);
+			}else{
+				System.out.println(replaceHeader+"未找到");
+			}
 		}
 		return map;
 	}
