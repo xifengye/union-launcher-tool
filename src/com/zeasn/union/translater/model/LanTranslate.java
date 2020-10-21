@@ -6,7 +6,7 @@ public class LanTranslate {
 
     public LanTranslate(Lan lan, String translate) {
         this.lan = lan;
-        this.translate = translate;
+        this.translate = (translate==null?"":translate.trim()).replace(" ","");
     }
 
     public Lan getLan() {

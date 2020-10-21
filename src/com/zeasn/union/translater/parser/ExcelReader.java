@@ -10,6 +10,7 @@ import java.util.Map;
 import com.zeasn.union.translater.model.Lan;
 import com.zeasn.union.translater.model.TranslateItem;
 import com.zeasn.union.translater.model.Translater;
+import javafx.scene.control.Label;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,16 +19,25 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelReader {
 	public static final int START_COLUMN = 2;
+	private Label mTranslationOutLabel;
+	public ExcelReader(Label mTranslationOutLabel) {
+		this.mTranslationOutLabel = mTranslationOutLabel;
+	}
+
 	public Translater read(String fileName) throws EncryptedDocumentException, IOException {
+		mTranslationOutLabel.setText(fileName);
 		if (fileName == null) return null;
 		
 		File xlsFile = new File(fileName);
 		if (!xlsFile.exists()) return null;
-		
+
+		mTranslationOutLabel.setText("fileExist");
 		// 工作表
 		Workbook workbook = WorkbookFactory.create(xlsFile);
 		// 表个数
 		int numberOfSheets = workbook.getNumberOfSheets();
+		mTranslationOutLabel.setText("numberOfSheets"+numberOfSheets);
+
 //		System.out.println(numberOfSheets);
 		if (numberOfSheets <= 0) return null;
 		

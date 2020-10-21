@@ -115,13 +115,12 @@ public class SelectTranslationLibPaneController {
         }
         try {
 //            path = getClass().getResource("/resources/translate.xlsx").toString().replace("file:", "");
-            Translater translater = new ExcelReader().read(path);
-            mTranslationOutLabel.setText(translater.getTranslateItemList().size()+"行");
+            Translater translater = new ExcelReader(mTranslationOutLabel).read(path);
             fillDataToTableView(translater);
 
         } catch (Exception e) {
+            mTranslationLibLabel.setText("出错了"+e.toString());
             e.printStackTrace();
-            mTranslationLibLabel.setText(e.getMessage());
         }
     }
 
