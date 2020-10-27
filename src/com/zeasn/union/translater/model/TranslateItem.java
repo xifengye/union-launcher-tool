@@ -16,7 +16,7 @@ public class TranslateItem {
         Cell keyCell = row.getCell(START_COLUMN);
         if(keyCell!=null) {
             String keyValue = keyCell.getStringCellValue();
-            key = (keyValue==null?"":keyValue.trim()).replace(" ","");
+            key = (keyValue==null?"":keyValue.trim());
             int lastColumn = row.getLastCellNum();
             for (int column = START_COLUMN+1; column < lastColumn; column++) {
                 if (lanMap.containsKey(column)) {

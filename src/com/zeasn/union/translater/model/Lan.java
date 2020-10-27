@@ -6,7 +6,7 @@ public enum Lan {
     ar_rEG("埃及阿拉伯文"), ar_rIL("以色列阿拉伯文"), fr_rFR("法国法文"),
     hi_rIN("印地文"), in_rID("印尼文"), ms_rMY("马来西亚文"),
     my_rMM("缅甸文"), sw_rTZ("斯瓦西里文"), vi_rVN("越南文)"),
-    zh_rHK("繁体中文"), zh_rTW("繁体中文");
+    zh_rHK("繁体中文"), zh_rTW("繁体中文"),de_rDE("德语"),it_rIT("意大利");
     String value;
 
     Lan(String value) {
