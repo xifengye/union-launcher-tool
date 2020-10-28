@@ -6,7 +6,7 @@ public class LanTranslate {
 
     public LanTranslate(Lan lan, String translate) {
         this.lan = lan;
-        this.translate = translate.replace("\'","\\\'").replace("\"","\\\"");
+        this.translate = translate.replace("\'","\\\'").replace("\"","\\\"").replace("％","%");
     }
 
     public Lan getLan() {
