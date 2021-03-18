@@ -5,6 +5,7 @@ import com.zeasn.union.data.DataMgr;
 import com.zeasn.union.data.LauncherProject;
 import com.zeasn.union.translater.model.TranslateItem;
 import com.zeasn.union.translater.parser.ExcelReader;
+import com.zeasn.union.utils.ExtraStringUtils;
 import com.zeasn.union.utils.WindowUtils;
 import com.zeasn.union.db.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -143,6 +145,14 @@ public class Controller implements IController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get().getButtonData() == ButtonBar.ButtonData.CANCEL_CLOSE){
         }
+    }
+
+    /**
+     * 创建图片Selector
+     * @param actionEvent
+     */
+    public void onExtraStrings(ActionEvent actionEvent) throws IOException{
+        ExtraStringUtils.doSomething();
     }
 
     /**
